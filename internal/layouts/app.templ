@@ -1,0 +1,36 @@
+package layouts
+
+import "URL-Shortener/internal/pages"
+
+templ App(route string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			switch route {
+				case "/":
+					<title>URL Shortener</title>
+				default:
+					<title>URL Shortener</title>
+			}
+			<meta name="description" content="A Free URL Shortener Website"/>
+			<script defer src="/static/js/alpine.min.js"></script>
+			<link rel="stylesheet" href="/static/css/output.css"/>
+			<link rel="icon" type="image/png" href="/static/assets/logo.png"/>
+			<link rel="apple-touch-icon" href="/static/assets/logo.png"/>
+			<meta name="msapplication-TileImage" content="/static/assets/logo.png"/>
+			<meta name="msapplication-TileColor" content="#ffffff"/>
+		</head>
+		<body>
+			// @Header()
+			switch route {
+				case "/":
+					@pages.Home()
+				default:
+					@pages.Home()
+			}
+			// @Footer()
+		</body>
+	</html>
+}

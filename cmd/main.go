@@ -1,12 +1,13 @@
 package main
 
 import (
+	"URL-Shortener/internal/layouts"
+	"context"
 	"net/http"
 	"path/filepath"
 )
 
 func main() {
-	// component := template.Home("ohom")
 	http.HandleFunc("GET /static/", func(w http.ResponseWriter, r *http.Request) {
 		filePath := r.URL.Path[len("/static/"):]
 		fullPath := filepath.Join(".", "static", filePath)
@@ -14,7 +15,7 @@ func main() {
 	})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/" {
-			// component.Render(context.Background(), w)
+			layouts.App("/").Render(context.Background(), w)
 		}
 	})
 	http.ListenAndServe(":8080", nil)
