@@ -8,8 +8,6 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
     --color-red-800: oklch(44.4% 0.177 26.899);
-    --color-orange-800: oklch(47% 0.157 37.304);
-    --color-emerald-800: oklch(43.2% 0.095 166.913);
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
     --default-transition-duration: 150ms;

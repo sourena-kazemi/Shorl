@@ -1,22 +1,27 @@
 package main
 
 import (
-	"URL-Shortener/internal/layouts"
-	"context"
+	// "math/big"
+	"URL-Shortener/internal/handlers"
 	"net/http"
-	"path/filepath"
+	// "github.com/google/uuid"
 )
 
+//	func test(id uuid.UUID) string {
+//	}
+//
+// id := uuid.New()
+// fmt.Print(id.String(), "\n", test(id))
+
 func main() {
-	http.HandleFunc("GET /static/", func(w http.ResponseWriter, r *http.Request) {
-		filePath := r.URL.Path[len("/static/"):]
-		fullPath := filepath.Join(".", "static", filePath)
-		http.ServeFile(w, r, fullPath)
-	})
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("GET /favicon.ico", handlers.FavIconHandler)
+	http.HandleFunc("GET /static/", handlers.StaticFilesHandler)
+	http.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/" {
-			layouts.App("/").Render(context.Background(), w)
+			handlers.HomePageHandler(w, r)
 		}
 	})
+	http.HandleFunc("POST /shorten/{url}", handlers.ShortenUrl)
+
 	http.ListenAndServe(":8080", nil)
 }
