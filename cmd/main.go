@@ -1,19 +1,20 @@
 package main
 
 import (
-	// "math/big"
 	"URL-Shortener/internal/handlers"
+	"database/sql"
+	"log"
 	"net/http"
-	// "github.com/google/uuid"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
-//	func test(id uuid.UUID) string {
-//	}
-//
-// id := uuid.New()
-// fmt.Print(id.String(), "\n", test(id))
-
 func main() {
+	db, err := sql.Open("sqlite3", "./internal/db/app.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
 	http.HandleFunc("GET /favicon.ico", handlers.FavIconHandler)
 	http.HandleFunc("GET /static/", handlers.StaticFilesHandler)
 	http.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
