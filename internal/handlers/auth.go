@@ -6,15 +6,26 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func OAuthCallback(w http.ResponseWriter, r *http.Request) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("failed to load .env file")
+	}
+	client_id := os.Getenv("CLIENT_ID")
+	client_secret := os.Getenv("CLIENT_SECRET")
+	callbackURL := os.Getenv("AUTH_CALLBACK_URL")
 	code := r.URL.Query().Get("code")
+
 	requestURL := fmt.Sprintf("https://github.com/login/oauth/access_token?client_id=%s?client_secret=%s?code=%s?redirect_uri=%s",
-		"Ov23liPnqjjshUGcpa1b",
-		"0971b7cb5e9dca8d9ac1c47e5358c84237195c0c",
+		client_id,
+		client_secret,
 		code,
-		"http://localhost:7070/auth/github/callback")
+		callbackURL)
 	request, err := http.NewRequest(http.MethodPost, requestURL, nil)
 	if err != nil {
 		log.Printf("failed to create request : %v", err)
