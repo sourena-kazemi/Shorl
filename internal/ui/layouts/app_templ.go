@@ -8,9 +8,7 @@ package layouts
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "URL-Shortener/internal/ui/pages"
-
-func App(route string) templ.Component {
+func App(route string, page templ.Component) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -41,29 +39,26 @@ func App(route string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+		case "/dashboard":
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<title>Dashboard - URL Shortener</title>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		default:
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<title>URL Shortener</title>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<title>URL Shortener</title>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<meta name=\"description\" content=\"A Free URL Shortener Website\"><script defer src=\"/static/js/alpine.min.js\"></script><link rel=\"stylesheet\" href=\"/static/css/output.css\"><link rel=\"icon\" type=\"image/png\" href=\"/static/assets/logo.png\"><link rel=\"apple-touch-icon\" href=\"/static/assets/logo.png\"><meta name=\"msapplication-TileImage\" content=\"/static/assets/logo.png\"><meta name=\"msapplication-TileColor\" content=\"#ffffff\"></head><body>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<meta name=\"description\" content=\"A Free URL Shortener Website\"><script defer src=\"/static/js/alpine.min.js\"></script><link rel=\"stylesheet\" href=\"/static/css/output.css\"><link rel=\"icon\" type=\"image/png\" href=\"/static/assets/logo.png\"><link rel=\"apple-touch-icon\" href=\"/static/assets/logo.png\"><meta name=\"msapplication-TileImage\" content=\"/static/assets/logo.png\"><meta name=\"msapplication-TileColor\" content=\"#ffffff\"></head><body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		switch route {
-		case "/":
-			templ_7745c5c3_Err = pages.Home().Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		default:
-			templ_7745c5c3_Err = pages.Home().Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
+		templ_7745c5c3_Err = page.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

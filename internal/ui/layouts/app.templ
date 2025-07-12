@@ -1,8 +1,6 @@
 package layouts
 
-import "URL-Shortener/internal/ui/pages"
-
-templ App(route string) {
+templ App(route string, page templ.Component) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -11,6 +9,8 @@ templ App(route string) {
 			switch route {
 				case "/":
 					<title>URL Shortener</title>
+				case "/dashboard":
+					<title>Dashboard - URL Shortener</title>
 				default:
 					<title>URL Shortener</title>
 			}
@@ -24,12 +24,7 @@ templ App(route string) {
 		</head>
 		<body>
 			// @Header()
-			switch route {
-				case "/":
-					@pages.Home()
-				default:
-					@pages.Home()
-			}
+			@page
 			// @Footer()
 		</body>
 	</html>

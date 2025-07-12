@@ -18,11 +18,15 @@ func main() {
 	http.HandleFunc("GET /favicon.ico", handlers.FavIconHandler)
 	http.HandleFunc("GET /static/", handlers.StaticFilesHandler)
 	http.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/" {
-			handlers.HomePageHandler(w, r)
+		if r.URL.Path != "/" {
+			http.NotFound(w, r)
+			return
 		}
+		handlers.HomePageHandler(w, r)
 	})
+	http.HandleFunc("GET /dashboard", handlers.DashboardPageHandler)
 	http.HandleFunc("POST /shorten/{url}", handlers.ShortenUrl)
+	http.HandleFunc("GET /auth/github/callback", handlers.OAuthCallback)
 
 	http.ListenAndServe(":8080", nil)
 }
