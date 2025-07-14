@@ -3,6 +3,7 @@ package auth
 import (
 	"database/sql"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/google/uuid"
@@ -32,7 +33,7 @@ func GenerateSession(userID int) (string, error) {
 	return sessionID, nil
 }
 
-func GetUserIdFromSessions(sessionID string) (int, error) {
+func GetUserIdFromSessions(w http.ResponseWriter, sessionID string) (int, error) {
 	var userID int
 	var expiresAt time.Time
 
@@ -47,11 +48,35 @@ func GetUserIdFromSessions(sessionID string) (int, error) {
 		return userID, fmt.Errorf("failed to fetch user session from database : %v", err)
 	}
 	if time.Now().After(expiresAt) {
-		_, err = db.Exec("DELETE FROM sessions WHERE session_id = ?", sessionID)
+		err = DeleteSession(w, sessionID)
 		if err != nil {
 			return userID, fmt.Errorf("failed to remove expired session from database : %v", err)
 		}
 		return userID, fmt.Errorf("session has expired")
 	}
 	return userID, nil
+}
+
+func DeleteSession(w http.ResponseWriter, sessionID string) error {
+	db, err := sql.Open("sqlite3", "./internal/db/app.db")
+	if err != nil {
+		return fmt.Errorf("failed to open database connection : %v", err)
+	}
+	defer db.Close()
+
+	_, err = db.Exec("DELETE FROM sessions WHERE session_id = ?", sessionID)
+	if err != nil {
+		return fmt.Errorf("failed to remove expired session from database : %v", err)
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:     "session_id",
+		Value:    "",
+		Path:     "/",
+		Secure:   true,
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+		Expires:  time.Unix(0, 0),
+		MaxAge:   -1,
+	})
+	return nil
 }

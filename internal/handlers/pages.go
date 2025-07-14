@@ -18,7 +18,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	sessionID := cookie.Value
-	_, err = auth.GetUserIdFromSessions(sessionID)
+	_, err = auth.GetUserIdFromSessions(w, sessionID)
 	if err != nil {
 		homePage := pages.Home()
 		layouts.App("/", homePage).Render(context.Background(), w)

@@ -23,7 +23,7 @@ func AuthenticatedAction(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 		sessionID := cookie.Value
-		userID, err := GetUserIdFromSessions(sessionID)
+		userID, err := GetUserIdFromSessions(w, sessionID)
 		if err != nil {
 			log.Printf("failed to retrieve user id from active sessions : %v", err)
 			http.Redirect(w, r, "/", http.StatusSeeOther)

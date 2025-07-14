@@ -68,7 +68,43 @@ func OAuthCallback(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to retrieve user data from github", http.StatusInternalServerError)
 		return
 	}
-	sessionID, err := auth.GenerateSession(userID)
+
+	cookie, err := r.Cookie("session_id")
+	if err != nil {
+		if err == http.ErrNoCookie {
+			sessionID, err := auth.GenerateSession(userID)
+			if err != nil {
+				log.Printf("failed to generate new session : %v", err)
+				http.Error(w, "failed to generate new session", http.StatusInternalServerError)
+				return
+			}
+
+			http.SetCookie(w, &http.Cookie{
+				Name:     "session_id",
+				Value:    sessionID,
+				Path:     "/",
+				Secure:   true,
+				HttpOnly: true,
+				SameSite: http.SameSiteStrictMode,
+				Expires:  time.Now().Add(time.Hour * 2),
+				MaxAge:   7200,
+			})
+			http.Redirect(w, r, "/dashboard", http.StatusFound)
+			return
+		} else {
+			log.Printf("failed to read session id cookie : %v", err)
+			http.Error(w, "failed to read session cookie", http.StatusInternalServerError)
+			return
+		}
+	}
+	sessionID := cookie.Value
+	err = auth.DeleteSession(w, sessionID)
+	if err != nil {
+		log.Printf("failed to remove session : %v", err)
+		http.Error(w, "failed to remove session", http.StatusInternalServerError)
+		return
+	}
+	sessionID, err = auth.GenerateSession(userID)
 	if err != nil {
 		log.Printf("failed to generate new session : %v", err)
 		http.Error(w, "failed to generate new session", http.StatusInternalServerError)
