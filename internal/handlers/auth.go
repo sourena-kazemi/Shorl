@@ -1,21 +1,17 @@
 package handlers
 
 import (
+	"URL-Shortener/internal/auth"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 )
-
-type userData struct {
-	ID        int    `json:"id"`
-	AvatarURL string `json:"avatar_url"`
-	Name      string `json:"name"`
-}
 
 func OAuthCallback(w http.ResponseWriter, r *http.Request) {
 	err := godotenv.Load()
@@ -66,41 +62,28 @@ func OAuthCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	accessToken := token.AccessToken
+	userID, err := auth.GetUserDataFromGithub(accessToken)
+	if err != nil {
+		log.Printf("failed to retrieve user data from github : %v", err)
+		http.Error(w, "failed to retrieve user data from github", http.StatusInternalServerError)
+		return
+	}
+	sessionID, err := auth.GenerateSession(userID)
+	if err != nil {
+		log.Printf("failed to generate new session : %v", err)
+		http.Error(w, "failed to generate new session", http.StatusInternalServerError)
+		return
+	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:     "access_token",
-		Value:    accessToken,
+		Name:     "session_id",
+		Value:    sessionID,
 		Path:     "/",
 		Secure:   true,
 		HttpOnly: true,
 		SameSite: http.SameSiteStrictMode,
+		Expires:  time.Now().Add(time.Hour * 2),
+		MaxAge:   7200,
 	})
 	http.Redirect(w, r, "/dashboard", http.StatusFound)
-}
-
-func GetUserData(accessToken string) (userData, error) {
-	requestURL := "https://api.github.com/user"
-	request, err := http.NewRequest(http.MethodGet, requestURL, nil)
-	if err != nil {
-		return userData{}, fmt.Errorf("failed to create github validation request : %v", err)
-	}
-	request.Header.Set("Authorization", "Bearer "+accessToken)
-	request.Header.Set("Accept", "application/vnd.github5+json")
-	client := &http.Client{}
-	response, err := client.Do(request)
-	if err != nil {
-		return userData{}, fmt.Errorf("failed to send request to github : %v", err)
-	}
-	defer response.Body.Close()
-	body, err := io.ReadAll(response.Body)
-	if err != nil {
-		return userData{}, fmt.Errorf("failed to read response body : %v", err)
-	}
-
-	var user userData
-	err = json.Unmarshal(body, &user)
-	if err != nil {
-		return userData{}, fmt.Errorf("failed to parse user data : %v", err)
-	}
-	return user, nil
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func generateShortURL(longURL string) string {
+func generateShortURL() string {
 	uuid := uuid.New()
 	var i big.Int
 	i.SetBytes(uuid[:])
@@ -16,8 +16,8 @@ func generateShortURL(longURL string) string {
 }
 
 func ShortenUrl(w http.ResponseWriter, r *http.Request) {
-	longURL := r.PathValue("url")
-	shortURL := generateShortURL(longURL)
+	// longURL := r.PathValue("url")
+	shortURL := generateShortURL()
 	w.Header().Set("Content-Type", "text/plain")
 	w.Write([]byte(shortURL))
 }

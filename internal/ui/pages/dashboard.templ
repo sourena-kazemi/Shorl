@@ -1,5 +1,6 @@
 package pages
 
-templ Dashboard(username string) {
+templ Dashboard(username string, avatarURL string) {
 	<h1>hello { username }</h1>
+	<img src={ avatarURL } alt="user avatar" class="w-10 rounded-full"/>
 }
