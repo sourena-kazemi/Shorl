@@ -1,6 +1,8 @@
 package pages
 
-templ Dashboard(username string, avatarURL string) {
-	<h1>hello { username }</h1>
-	<img src={ avatarURL } alt="user avatar" class="w-10 rounded-full"/>
+templ Dashboard() {
+	<form action="/shorten" method="POST" class="flex gap-2">
+		<input type="text" name="url" placeholder="Paste your url here" class="border rounded-lg px-4 py-1"/>
+		<button type="submit" class="text-white bg-black px-4 py-1 rounded-lg">Generate Short URL</button>
+	</form>
 }

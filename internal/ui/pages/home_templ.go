@@ -29,7 +29,7 @@ func Home() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col items-center justify-center h-screen w-full gap-8\"><h1 class=\"text-5xl text-center\">URL Shortener Website <br>Free and Open Source</h1><form class=\"flex gap-2\"><input type=\"text\" name=\"url\" placeholder=\"Paste your url here\" class=\"border rounded-lg px-4 py-1\"> <button type=\"submit\" class=\"text-white bg-black px-4 py-1 rounded-lg\">Generate Short URL</button></form><a href=\"https://github.com/login/oauth/authorize?client_id=Ov23liPnqjjshUGcpa1b&redirect_uri=http://localhost:7070/auth/github/callback\" class=\"underline\">Sign in with github</a></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col items-center gap-4\"><h1 class=\"text-5xl text-center\">URL Shortener Website <br>Free and Open Source</h1><a href=\"https://github.com/login/oauth/authorize?client_id=Ov23liPnqjjshUGcpa1b&redirect_uri=http://localhost:7070/auth/github/callback\" class=\"underline\">Sign in with github</a></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

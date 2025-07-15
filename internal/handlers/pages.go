@@ -14,14 +14,14 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("session_id")
 	if err != nil {
 		homePage := pages.Home()
-		layouts.App("/", homePage).Render(context.Background(), w)
+		layouts.App("/", homePage, "", "", false).Render(context.Background(), w)
 		return
 	}
 	sessionID := cookie.Value
 	_, err = auth.GetUserIdFromSessions(w, sessionID)
 	if err != nil {
 		homePage := pages.Home()
-		layouts.App("/", homePage).Render(context.Background(), w)
+		layouts.App("/", homePage, "", "", false).Render(context.Background(), w)
 		return
 	}
 	http.Redirect(w, r, "/dashboard", http.StatusFound)
@@ -42,6 +42,6 @@ func DashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, errorMessage, http.StatusInternalServerError)
 		return
 	}
-	dashboardPage := pages.Dashboard(userData.Name, userData.AvatarURL)
-	layouts.App("/dashboard", dashboardPage).Render(context.Background(), w)
+	dashboardPage := pages.Dashboard()
+	layouts.App("/dashboard", dashboardPage, userData.Name, userData.AvatarURL, true).Render(context.Background(), w)
 }

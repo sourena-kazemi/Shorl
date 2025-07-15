@@ -8,7 +8,9 @@ package layouts
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func App(route string, page templ.Component) templ.Component {
+import "URL-Shortener/internal/ui/components"
+
+func App(route string, page templ.Component, username string, avatarURL string, isLoggedIn bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,7 +31,7 @@ func App(route string, page templ.Component) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\" class=\"w-full h-full\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -50,7 +52,15 @@ func App(route string, page templ.Component) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<meta name=\"description\" content=\"A Free URL Shortener Website\"><script defer src=\"/static/js/alpine.min.js\"></script><link rel=\"stylesheet\" href=\"/static/css/output.css\"><link rel=\"icon\" type=\"image/png\" href=\"/static/assets/logo.png\"><link rel=\"apple-touch-icon\" href=\"/static/assets/logo.png\"><meta name=\"msapplication-TileImage\" content=\"/static/assets/logo.png\"><meta name=\"msapplication-TileColor\" content=\"#ffffff\"></head><body>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<meta name=\"description\" content=\"A Free URL Shortener Website\"><script defer src=\"/static/js/alpine.min.js\"></script><link rel=\"stylesheet\" href=\"/static/css/output.css\"><link rel=\"icon\" type=\"image/png\" href=\"/static/assets/logo.png\"><link rel=\"apple-touch-icon\" href=\"/static/assets/logo.png\"><meta name=\"msapplication-TileImage\" content=\"/static/assets/logo.png\"><meta name=\"msapplication-TileColor\" content=\"#ffffff\"></head><body class=\"w-full h-full p-10\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.Header(username, avatarURL, isLoggedIn).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div class=\"flex flex-col items-center justify-center h-full w-full gap-8\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -58,7 +68,7 @@ func App(route string, page templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

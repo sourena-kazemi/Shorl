@@ -17,7 +17,7 @@ func main() {
 		handlers.HomePageHandler(w, r)
 	})
 	http.HandleFunc("GET /dashboard", auth.AuthenticatedAction(handlers.DashboardPageHandler))
-	http.HandleFunc("POST /shorten/{url}", handlers.ShortenUrl)
+	http.HandleFunc("POST /shorten", auth.AuthenticatedAction(handlers.ShortenUrl))
 	http.HandleFunc("GET /auth/github/callback", handlers.OAuthCallback)
 
 	http.ListenAndServe(":8080", nil)

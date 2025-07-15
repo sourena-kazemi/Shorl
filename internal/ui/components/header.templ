@@ -1,0 +1,15 @@
+package components
+
+templ Header(username string, avatarURL string, isLoggedIn bool) {
+	<header class="flex justify-between items-center">
+		<div class="w-10 h-10 rounded-full bg-gray-500"></div>
+		if isLoggedIn {
+			<div class="flex items-center gap-2">
+				<p class="font-medium">{ username }</p>
+				<img src={ avatarURL } alt="user profile picture" class="w-10 rounded-full"/>
+			</div>
+		} else {
+			<a href="https://github.com/login/oauth/authorize?client_id=Ov23liPnqjjshUGcpa1b&redirect_uri=http://localhost:7070/auth/github/callback" class="underline">Sign in with github</a>
+		}
+	</header>
+}

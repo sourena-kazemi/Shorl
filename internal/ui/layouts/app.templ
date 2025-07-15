@@ -1,8 +1,10 @@
 package layouts
 
-templ App(route string, page templ.Component) {
+import "URL-Shortener/internal/ui/components"
+
+templ App(route string, page templ.Component, username string, avatarURL string, isLoggedIn bool) {
 	<!DOCTYPE html>
-	<html lang="en">
+	<html lang="en" class="w-full h-full">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -22,9 +24,11 @@ templ App(route string, page templ.Component) {
 			<meta name="msapplication-TileImage" content="/static/assets/logo.png"/>
 			<meta name="msapplication-TileColor" content="#ffffff"/>
 		</head>
-		<body>
-			// @Header()
-			@page
+		<body class="w-full h-full p-10">
+			@components.Header(username, avatarURL, isLoggedIn)
+			<div class="flex flex-col items-center justify-center h-full w-full gap-8">
+				@page
+			</div>
 			// @Footer()
 		</body>
 	</html>
