@@ -1,0 +1,14 @@
+package components
+
+type Url struct {
+	ShortURL string
+	LongURL  string
+}
+
+templ UrlList(urls []Url) {
+	<div id="url_list" x-merge="prepend">
+		for _,url := range urls {
+			@UrlItem(url)
+		}
+	</div>
+}

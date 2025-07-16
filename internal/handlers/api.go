@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"URL-Shortener/internal/auth"
+	"URL-Shortener/internal/ui/components"
+	"context"
 	"database/sql"
 	"log"
 	"math/big"
@@ -10,6 +12,29 @@ import (
 	"github.com/google/uuid"
 	_ "github.com/mattn/go-sqlite3"
 )
+
+func getUrlList(userID int, db *sql.DB) ([]components.Url, error) {
+	var userURLS []components.Url
+	rows, err := db.Query("SELECT short_url,long_url FROM urls WHERE user_id = ?", userID)
+	if err != nil {
+		return userURLS, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var url components.Url
+		err = rows.Scan(&url.ShortURL, &url.LongURL)
+		if err != nil {
+			return userURLS, err
+		}
+		userURLS = append(userURLS, url)
+	}
+	err = rows.Err()
+	if err != nil {
+		return userURLS, err
+	}
+
+	return userURLS, nil
+}
 
 func storeURL(userID int, longURL string, shortURL string, db *sql.DB) error {
 	_, err := db.Exec("INSERT INTO urls (user_id,short_url,long_url) VALUES (?,?,?)", userID, shortURL, longURL)
@@ -66,6 +91,9 @@ func ShortenUrl(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("failed to store url in database : %v", err)
 		http.Error(w, "failed to store url in database", http.StatusInternalServerError)
+		return
 	}
-	//send the url back to the client
+	urlData := components.Url{ShortURL: shortURL, LongURL: longURL}
+	urlListComponent := components.UrlList([]components.Url{urlData})
+	urlListComponent.Render(context.Background(), w)
 }
