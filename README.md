@@ -1,6 +1,6 @@
 # System Design Document: Shorl
 
-### The PDF version of this document can be found at [drive.google.com/file/d/1tXFj0BsXZlL4HxcD05IPpPMDbAnlK-fD/view?usp=sharing](https://drive.google.com/file/d/1tXFj0BsXZlL4HxcD05IPpPMDbAnlK-fD/view?usp=sharing)
+### The PDF version of this document can be found at [Here](https://drive.google.com/file/d/1C5uz8ylRBUsRZNV-D8xHVEvHW8maIGCE/view?usp=sharing)
 
 ## Overview:
 
@@ -123,10 +123,10 @@ We could give our users the option to disable analytics on their generated short
 
 # References and Resources:
 
-- A video explaining Alpine Ajax and its philosophy by its creator ([youtu.be/vNiZyFVmoOI?si=gyIbsRsGD3PiF3U2](https://youtu.be/vNiZyFVmoOI?si=gyIbsRsGD3PiF3U2))
-- Github Oauth Documentation ([docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps))
-- Templ Documentation ([templ.guide](https://templ.guide/))
-- Tailwind Documentation ([tailwindcss.com/docs/installation/tailwind-cli](https://tailwindcss.com/docs/installation/tailwind-cli))
-- Alpine Documentation ([alpinejs.dev](https://alpinejs.dev/))
-- Alpine Ajax Documentation ([alpine-ajax.js.org](https://alpine-ajax.js.org/))
-- Mozilla’s Documentation on HTTP status codes ([developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status#redirection_messages](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status#redirection_messages))
+- [A video explaining Alpine Ajax and its philosophy by its creator](https://youtu.be/vNiZyFVmoOI?si=gyIbsRsGD3PiF3U2)
+- [Github Oauth Documentation](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps)
+- [Templ Documentation](https://templ.guide)
+- [Tailwind Documentation](https://tailwindcss.com/docs/installation/tailwind-cli)
+- [Alpine Documentation](https://alpinejs.dev)
+- [Alpine Ajax Documentation](https://alpine-ajax.js.org)
+- [Mozilla’s Documentation on HTTP status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status#redirection_messages)
