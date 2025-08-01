@@ -2,7 +2,7 @@ package pages
 
 templ Dashboard(urlList templ.Component) {
 	<form x-target="url_list" action="/shorten" method="POST" class="flex gap-2">
-		<input type="text" name="url" placeholder="Paste your url here" class="border rounded-lg px-4 py-1"/>
+		<input type="url" name="url" placeholder="Paste your url here" class="border rounded-lg px-4 py-1"/>
 		<button type="submit" class="text-white bg-black px-4 py-1 rounded-lg">Generate Short URL</button>
 	</form>
 	@urlList

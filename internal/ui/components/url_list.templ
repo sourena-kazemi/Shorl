@@ -6,7 +6,7 @@ type Url struct {
 }
 
 templ UrlList(urls []Url) {
-	<div id="url_list" x-merge="prepend" class="space-y-4">
+	<div id="url_list" x-merge="prepend" x-auto-animate class="space-y-4">
 		for _,url := range urls {
 			@UrlItem(url)
 		}

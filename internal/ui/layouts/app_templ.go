@@ -52,7 +52,7 @@ func App(route string, page templ.Component, username string, avatarURL string, 
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<meta name=\"description\" content=\"A Free URL Shortener Website\"><script defer src=\"/static/js/alpine-ajax.min.js\"></script><script defer src=\"/static/js/alpine.min.js\"></script><link rel=\"stylesheet\" href=\"/static/css/output.css\"><link rel=\"icon\" type=\"image/png\" href=\"/static/assets/logo.png\"><link rel=\"apple-touch-icon\" href=\"/static/assets/logo.png\"><meta name=\"msapplication-TileImage\" content=\"/static/assets/logo.png\"><meta name=\"msapplication-TileColor\" content=\"#ffffff\"></head><body class=\"w-full h-full p-10\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<meta name=\"description\" content=\"A Free URL Shortener Website\"><script defer src=\"/static/js/alpine-ajax.min.js\"></script><script defer src=\"/static/js/alpine-auto-animate.min.js\"></script><script defer src=\"/static/js/alpine-clipboard.min.js\"></script><script defer src=\"/static/js/alpine.min.js\"></script><link rel=\"stylesheet\" href=\"/static/css/output.css\"><link rel=\"icon\" type=\"image/png\" href=\"/static/assets/logo.png\"><link rel=\"apple-touch-icon\" href=\"/static/assets/logo.png\"><meta name=\"msapplication-TileImage\" content=\"/static/assets/logo.png\"><meta name=\"msapplication-TileColor\" content=\"#ffffff\"></head><body class=\"w-full h-full p-10\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -9,13 +9,8 @@ import (
 func main() {
 	http.HandleFunc("GET /favicon.ico", handlers.FavIconHandler)
 	http.HandleFunc("GET /static/", handlers.StaticFilesHandler)
-	http.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/" {
-			http.NotFound(w, r)
-			return
-		}
-		handlers.HomePageHandler(w, r)
-	})
+	http.HandleFunc("GET /", handlers.HomePageHandler)
+	http.HandleFunc("GET /{url}", handlers.Redirect)
 	http.HandleFunc("GET /dashboard", auth.AuthenticatedAction(handlers.DashboardPageHandler))
 	http.HandleFunc("POST /shorten", auth.AuthenticatedAction(handlers.ShortenUrl))
 	http.HandleFunc("GET /auth/github/callback", handlers.OAuthCallback)

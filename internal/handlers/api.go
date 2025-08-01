@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/big"
 	"net/http"
+	"net/url"
 
 	"github.com/google/uuid"
 	_ "github.com/mattn/go-sqlite3"
@@ -73,6 +74,17 @@ func ShortenUrl(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 	longURL := r.FormValue("url")
+	u, err := url.ParseRequestURI(longURL)
+	if u.Scheme == "" || u.Host == "" {
+		http.Error(w, "URL is not valid", http.StatusBadRequest)
+		return
+	}
+	if err != nil {
+		log.Printf("failed to validate url : %v", err)
+		http.Error(w, "something went wrong with validating url", http.StatusInternalServerError)
+		return
+	}
+
 	shortURL, err := generateShortURL(db)
 	if err != nil {
 		log.Printf("failed to generate new short url : %v", err)
@@ -96,4 +108,28 @@ func ShortenUrl(w http.ResponseWriter, r *http.Request) {
 	urlData := components.Url{ShortURL: shortURL, LongURL: longURL}
 	urlListComponent := components.UrlList([]components.Url{urlData})
 	urlListComponent.Render(context.Background(), w)
+}
+
+func Redirect(w http.ResponseWriter, r *http.Request) {
+	shortURL := r.PathValue("url")
+	log.Print(shortURL)
+	db, err := sql.Open("sqlite3", "./internal/db/app.db")
+	if err != nil {
+		log.Printf("failed to open database connection : %v", err)
+		http.Error(w, "failed to open database connection", http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+	var longURL string
+	err = db.QueryRow("SELECT long_url FROM urls WHERE short_url = ?", shortURL).Scan(&longURL)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.NotFound(w, r)
+			return
+		}
+		log.Printf("failed to query long url : %v", err)
+		http.Error(w, "failed to find the original url", http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, longURL, http.StatusFound)
 }
